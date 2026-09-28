@@ -1,0 +1,4 @@
+<view>
+  <button bindtap="onTap">Tap me</button>
+  <text>{{message}}</text>
+</view>
