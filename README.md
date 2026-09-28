@@ -1,47 +1,42 @@
-# miniapp-project-check
+# 微信小程序工程自检工具 | WeChat Mini Program Project Checker
 
-A small, dependency-free checker for **native WeChat Mini Program** projects. It checks common project mistakes without starting the app, calling an API, or executing project code.
+**在打开微信开发者工具前，先找出缺失的页面、写错的引用和基础语法问题。** 这是一个面向原生微信小程序的零依赖、只读检查器。
 
-从实际小程序开发中抽出的独立检查工具。它只读取项目文件，不运行页面代码，不连接网络，也不需要微信账号或任何密钥。
+**Catch missing pages, broken references, and basic syntax errors before opening WeChat Developer Tools.** This dependency-free checker reads native WeChat Mini Program projects without running their code.
 
-## Checks / 检查内容
+📖 [完整中文说明 / 中文版 README](README.zh-CN.md) · [Full English guide / English README](README.en.md)
 
-- `app.json` and other JSON files parse correctly.
-- JavaScript files pass `node --check` syntax validation.
-- Every route in `app.json.pages` has a `.js` and `.wxml` file. `--strict-pages` also requires `.json` and `.wxss`.
-- Literal event handler names in WXML appear in the page's JavaScript file. This is a conservative text check, so dynamic handlers are not evaluated.
-- Literal `/assets/...` references in project source files exist.
-- A `project.config.json` with `miniprogramRoot` is supported.
+## 30 秒试用 / Try it in 30 seconds
 
-Generated directories such as `.git`, `node_modules`, `miniprogram_npm`, `dist`, and `coverage` are skipped. Symlinks are skipped. Text checks can flag a path in a comment and cannot resolve dynamic expressions. The checker does **not** verify that an app can compile in WeChat Developer Tools or that an API is working.
-
-## Quick start / 快速使用
-
-Requires Node.js 18 or newer. No package installation is needed to run the source checkout:
+需要 Node.js 18 或更新版本。克隆仓库后直接运行，无须安装依赖。Requires Node.js 18 or newer; no dependency installation is needed after cloning.
 
 ```sh
+git clone https://github.com/workstonedai-collab/miniapp-project-check.git
+cd miniapp-project-check
 node bin/miniapp-check.mjs examples/hello-miniapp
-node bin/miniapp-check.mjs /path/to/your/miniapp --strict-pages
-node bin/miniapp-check.mjs /path/to/your/miniapp --json
 ```
 
-After installing the package locally or from a Git repository, the same command is available as `miniapp-check`:
+```text
+Passed: 1 pages, 5 scanned files.
+```
+
+检查自己的小程序 / Check your own project:
 
 ```sh
-miniapp-check /path/to/your/miniapp
+node bin/miniapp-check.mjs /path/to/your/miniapp
+node bin/miniapp-check.mjs /path/to/your/miniapp --strict-pages --json
 ```
 
-Exit code `0` means all enabled checks passed, `1` means project issues were found, and `2` means the command arguments are invalid. JSON output includes issue codes and file paths for CI integration. It does not include source lines or file contents.
+| 检查项 | What it checks |
+| --- | --- |
+| 页面路径与文件 | Routes in `app.json.pages` and their page files |
+| JSON 与 JavaScript 语法 | JSON parsing and JavaScript syntax |
+| WXML 事件绑定 | Literal WXML event handler references |
+| 本地素材路径 | Literal `/assets/...` references |
+| 嵌套的小程序目录 | `miniprogramRoot` in `project.config.json` |
 
-## Development / 开发
+检查器不执行页面代码、不调用接口、不发送项目文件到网络。它是工程预检，不能代替微信开发者工具编译或真机测试。
 
-```sh
-npm test
-npm run check:example
-```
+The checker does not execute page code, call APIs, or send project files over the network. It is a preflight check, not a replacement for compilation in WeChat Developer Tools or device testing.
 
-This repository contains only generic tool code and a fictional example. It does not contain the original product's pages, assets, endpoints, credentials, data, or Git history.
-
-## License
-
-MIT. See [LICENSE](LICENSE).
+**下一步 / Next:** [中文使用说明](README.zh-CN.md) · [English usage guide](README.en.md) · [MIT License](LICENSE)

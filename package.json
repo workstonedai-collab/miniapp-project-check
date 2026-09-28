@@ -1,7 +1,7 @@
 {
   "name": "miniapp-project-check",
   "version": "0.1.0",
-  "description": "Dependency-free, read-only checks for native WeChat Mini Program projects",
+  "description": "微信小程序工程自检工具 | Read-only checks for WeChat Mini Program projects",
   "type": "module",
   "bin": {
     "miniapp-check": "./bin/miniapp-check.mjs"
@@ -17,6 +17,8 @@
     "bin/",
     "lib/",
     "README.md",
+    "README.zh-CN.md",
+    "README.en.md",
     "LICENSE"
   ],
   "license": "MIT"
