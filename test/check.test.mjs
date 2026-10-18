@@ -10,6 +10,19 @@ import { checkProject } from "../lib/check.mjs";
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const example = join(repo, "examples/hello-miniapp");
 
+test("checks subpackage pages, invalid roots and duplicate registrations", () => fixture(root => {
+  writeFileSync(join(root, 'app.json'), JSON.stringify({ pages: ['pages/index/index'], subPackages: [{ root: 'extra', pages: ['pages/missing'] }] }));
+  const result = checkProject(root);
+  assert.equal(result.pages, 2);
+  assert.ok(result.issues.some(row => row.code === 'PAGE_FILE_MISSING' && row.file.startsWith('extra/')));
+  writeFileSync(join(root, 'app.json'), JSON.stringify({ pages: ['pages/index/index'], subpackages: [{ root: '..', pages: ['outside'] }] }));
+  assert.ok(checkProject(root).issues.some(row => row.code === 'INVALID_SUBPACKAGE'));
+  writeFileSync(join(root, 'app.json'), JSON.stringify({ pages: ['pages/index/index'], subPackages: [{ root: 'pages', pages: ['index/index'] }] }));
+  assert.ok(checkProject(root).issues.some(row => row.code === 'DUPLICATE_PAGE'));
+  writeFileSync(join(root, 'app.json'), JSON.stringify({ pages: ['pages/index/index'], subPackages: {} }));
+  assert.ok(checkProject(root).issues.some(row => row.code === 'INVALID_SUBPACKAGE'));
+}));
+
 function fixture(callback) {
   const root = mkdtempSync(join(tmpdir(), "miniapp-check-"));
   mkdirSync(join(root, "pages/index"), { recursive: true });

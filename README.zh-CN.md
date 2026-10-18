@@ -1,5 +1,8 @@
 # 微信小程序工程自检工具
 
+也检查 `subPackages`／`subpackages` 的本地页面文件，拒绝越界路径和重复注册。
+这是原生工程静态检查，不代表分包下载或真机运行已通过。
+
 [English README](README.en.md) · [仓库首页](README.md)
 
 页面加进了 `app.json`，却漏了文件？WXML 里改了事件名，JavaScript 没跟着改？图标路径在代码里存在，实际素材却不在项目中？这些小问题通常要到编译或点进页面时才暴露。**miniapp-project-check** 让你在打开微信开发者工具之前，先用一条命令做基础工程预检。

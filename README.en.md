@@ -1,5 +1,9 @@
 # WeChat Mini Program Project Checker
 
+Also checks local page files under `subPackages`/`subpackages`, rejects escaping
+paths and reports duplicate routes. Static checks do not prove package downloads
+or real-device behavior.
+
 [简体中文](README.zh-CN.md) · [Repository home](README.md)
 
 Added a page to `app.json` but forgot one of its files? Renamed a WXML event handler without updating the JavaScript? Referenced an icon that is missing from the project? These small mistakes often surface only when you compile or open a page. **miniapp-project-check** gives native WeChat Mini Program projects a quick structural preflight check before you open WeChat Developer Tools.
